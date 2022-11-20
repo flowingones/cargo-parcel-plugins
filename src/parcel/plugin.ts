@@ -1,7 +1,6 @@
 import { inline, install } from "@twind/core";
 import { AfterRenderTaskContext } from "parcel/cargo/plugin.ts";
 interface TwindPluginOptions {
-  version?: string;
   twindConfig: any;
 }
 
