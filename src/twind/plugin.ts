@@ -1,10 +1,7 @@
-import { inline, install } from "@twind/core";
+import { inline, install, TwindConfig } from "@twind/core";
 import { AfterRenderTaskContext } from "parcel/cargo/plugin.ts";
-interface TwindPluginOptions {
-  twindConfig: any;
-}
 
-export function TwindPlugin(options: TwindPluginOptions) {
+export function TwindPlugin(options: TwindConfig) {
   install(options, false);
 
   return {

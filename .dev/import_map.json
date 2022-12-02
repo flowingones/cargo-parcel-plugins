@@ -1,6 +1,6 @@
 {
   "imports": {
-    "parcel": "https://deno.land/x/cargo_parcel@0.1.59",
+    "parcel/": "https://deno.land/x/cargo_parcel@0.1.59/",
     "@twind/core": "https://esm.sh/@twind/core@1.0.1"
   }
 }
