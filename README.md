@@ -15,12 +15,10 @@ Add dependencies to the import_map.json of your Cargo project.
 ```json
 {
   "imports": {
-	...
-    "parcel_plugins/": "https://deno.land/x/cargo_parcel_plugins@0.0.1/",
+    "parcel_plugins/": "https://deno.land/x/cargo_parcel_plugins/",
     "@twind/core": "https://esm.sh/@twind/core@1.0.1",
-	"@twind/preset-autoprefix": "https://esm.sh/@twind/preset-autoprefix",
-	"@twind/preset-tailwind": "https://esm.sh/@twind/preset-tailwind"
-    ...
+    "@twind/preset-autoprefix": "https://esm.sh/@twind/preset-autoprefix@1.0.1",
+    "@twind/preset-tailwind": "https://esm.sh/@twind/preset-tailwind@1.0.1"
   }
 }
 ```
@@ -47,9 +45,10 @@ import twindConfig from "config/twind.ts";
 ...
 
 export default {
-  ...,
+  // ...
   plugins: [
-	TwindPlugin(twindConfig),
+    TwindPlugin(twindConfig),
   ],
+  // ...
 };
 ```
