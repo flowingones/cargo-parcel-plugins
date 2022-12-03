@@ -23,7 +23,7 @@ Add dependencies to the import_map.json of your Cargo project.
 }
 ```
 
-Create the twind configuration of your project under `/config/twind.ts`
+Create the twind configuration under `/config/twind.ts`
 
 ```ts
 import { defineConfig } from "@twind/core";
@@ -35,7 +35,7 @@ export default defineConfig({
 });
 ```
 
-Add the Twind Plugin to the Cargo Parcel configuration in `/config/parcel.ts`
+Add the `TwindPlugin` to the Cargo Parcel configuration in `/config/parcel.ts`
 and pass in the twind configuration.
 
 ```ts
