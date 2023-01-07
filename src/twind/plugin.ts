@@ -1,7 +1,7 @@
 import { inline, install, TwindConfig } from "@twind/core";
 import { AfterRenderTaskContext } from "parcel/cargo/plugin.ts";
 
-export function TwindPlugin(options: TwindConfig) {
+export function TwindPlugin<T extends TwindConfig>(options: T) {
   install(options, false);
 
   return {
@@ -10,9 +10,11 @@ export function TwindPlugin(options: TwindConfig) {
       return {
         entryPoints: [],
         tasks: {
-          afterRender: [(ctx: AfterRenderTaskContext) => {
-            return inline(ctx.pageHtml);
-          }],
+          afterRender: [
+            (ctx: AfterRenderTaskContext) => {
+              return inline(ctx.pageHtml);
+            },
+          ],
         },
       };
     },
