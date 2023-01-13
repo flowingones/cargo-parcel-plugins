@@ -1,7 +1,7 @@
 import { inline, install, TwindConfig } from "@twind/core";
-import { AfterRenderTaskContext } from "parcel/cargo/plugin.ts";
+import { AfterRenderTaskContext, Plugin } from "parcel/cargo/plugin.ts";
 
-export function TwindPlugin<T extends TwindConfig>(options: T) {
+export function TwindPlugin<T extends TwindConfig>(options: T): Plugin {
   // TODO: only default to false if islands are available
   if (typeof options.hash === "undefined") {
     options.hash = false;
@@ -12,7 +12,6 @@ export function TwindPlugin<T extends TwindConfig>(options: T) {
     name: "Twind Plugin",
     plugin() {
       return {
-        entryPoints: [],
         tasks: {
           afterRender: [
             (ctx: AfterRenderTaskContext) => {
