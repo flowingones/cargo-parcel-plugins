@@ -13,8 +13,9 @@ export async function TwindPlugin(): Promise<Plugin> {
       .default;
 
     install(config || {});
-  } catch (_e) {
+  } catch (e) {
     info("Twind Plugin", "'config/twind.ts' could not be loaded", "Parcel");
+    console.error(e.message);
   }
 
   return {
