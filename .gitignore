@@ -1,3 +1,4 @@
 .nova/
 .DS_Store
 examples/*
+deno.lock

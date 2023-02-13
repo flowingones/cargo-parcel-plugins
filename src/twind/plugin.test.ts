@@ -1,8 +1,7 @@
 import { assertEquals } from "std/testing/asserts.ts";
-import { defineConfig } from "@twind/core";
 import { TwindPlugin } from "./plugin.ts";
 
-const Plugin = TwindPlugin(defineConfig({}));
+const Plugin = await TwindPlugin();
 
 const plugin = await Plugin.plugin();
 
