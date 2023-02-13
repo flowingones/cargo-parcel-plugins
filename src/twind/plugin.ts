@@ -1,5 +1,5 @@
 import { inline, install } from "@twind/core";
-import { join } from "https://deno.land/std@0.159.0/path/mod.ts";
+import { join, toFileUrl } from "https://deno.land/std@0.159.0/path/mod.ts";
 import {
   AfterRenderTaskContext,
   Plugin,
@@ -9,7 +9,9 @@ import { info } from "cargo/utils/mod.ts";
 
 export async function TwindPlugin(): Promise<Plugin> {
   try {
-    const config = (await import(join(Deno.cwd(), "./config/twind.ts")))
+    const config = (await import(
+      new URL(join(toFileUrl(Deno.cwd()).href, `./config/twind.ts`)).href
+    ))
       .default;
 
     install(config || {});
@@ -23,7 +25,8 @@ export async function TwindPlugin(): Promise<Plugin> {
     plugin(): PluginDefintions {
       return {
         entryPoints: {
-          "plugin_twind_config": `${Deno.cwd()}/config/twind.ts`,
+          "plugin_twind_config":
+            new URL(join(toFileUrl(Deno.cwd()).href, `./config/twind.ts`)).href,
           "plugin_twind": new URL("./twind.ts", import.meta.url).href,
         },
         scripts: [
