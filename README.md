@@ -36,18 +36,16 @@ export default defineConfig({
 ```
 
 Add the `TwindPlugin` to the Cargo Parcel configuration in `/config/parcel.ts`
-and pass in the twind configuration.
 
 ```ts
 ...
 import { TwindPlugin } from "parcel_plugins/twind/mod.ts";
-import twindConfig from "config/twind.ts";
 ...
 
 export default {
   // ...
   plugins: [
-    TwindPlugin(twindConfig),
+    TwindPlugin(),
   ],
   // ...
 };

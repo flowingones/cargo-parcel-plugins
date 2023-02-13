@@ -1,21 +1,33 @@
-import { inline, install, TwindConfig } from "@twind/core";
+import { inline, install } from "@twind/core";
+import { join } from "https://deno.land/std@0.159.0/path/mod.ts";
 import {
   AfterRenderTaskContext,
   Plugin,
   PluginDefintions,
 } from "parcel/cargo/plugin.ts";
+import { info } from "cargo/utils/mod.ts";
 
-export function TwindPlugin<T extends TwindConfig>(options: T): Plugin {
-  // TODO: only default to false if islands are available
-  if (typeof options.hash === "undefined") {
-    options.hash = false;
+export async function TwindPlugin(): Promise<Plugin> {
+  try {
+    const config = (await import(join(Deno.cwd(), "./config/twind.ts")))
+      .default;
+
+    install(config || {});
+  } catch (_e) {
+    info("Twind Plugin", "'config/twind.ts' could not be loaded", "Parcel");
   }
-  install(options);
 
   return {
     name: "Twind Plugin",
     plugin(): PluginDefintions {
       return {
+        entryPoints: {
+          "plugin_twind_config": `${Deno.cwd()}/config/twind.ts`,
+          "plugin_twind": new URL("./twind.ts", import.meta.url).href,
+        },
+        scripts: [
+          `<script type="module">import { twind } from "/plugin_twind.js"; twind()</script>`,
+        ],
         tasks: {
           afterRender: [
             (ctx: AfterRenderTaskContext) => {
