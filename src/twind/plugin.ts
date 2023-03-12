@@ -7,12 +7,14 @@ import {
 } from "parcel/cargo/plugin.ts";
 import { info } from "cargo/utils/mod.ts";
 
-export async function TwindPlugin(): Promise<Plugin> {
+export async function TwindPlugin(config: any): Promise<Plugin> {
   try {
-    const config = (await import(
-      new URL(join(toFileUrl(Deno.cwd()).href, `./config/twind.ts`)).href
-    ))
-      .default;
+    if (!config) {
+      const config = (await import(
+        new URL(join(toFileUrl(Deno.cwd()).href, `./config/twind.ts`)).href
+      ))
+        .default;
+    }
 
     install(config || {});
   } catch (e) {
