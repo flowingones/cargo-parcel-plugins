@@ -1,5 +1,6 @@
 import { inline, install } from "@twind/core";
-import { join, toFileUrl } from "https://deno.land/std@0.159.0/path/mod.ts";
+import { join, toFileUrl } from "std/path/mod.ts";
+import { BUILD_ID } from "parcel/cargo/constants.ts";
 import {
   AfterRenderTaskContext,
   Plugin,
@@ -27,12 +28,10 @@ export async function TwindPlugin(config?: any): Promise<Plugin> {
     plugin(): PluginDefintions {
       return {
         entryPoints: {
-          "plugin_twind_config":
-            new URL(join(toFileUrl(Deno.cwd()).href, `./config/twind.ts`)).href,
           "plugin_twind": new URL("./twind.ts", import.meta.url).href,
         },
         scripts: [
-          `<script type="module">import { twind } from "/plugin_twind.js"; twind()</script>`,
+          `<script type="module">import { twind } from "/_parcel/${BUILD_ID}/plugin_twind.js"; twind()</script>`,
         ],
         tasks: {
           afterRender: [
