@@ -20,7 +20,7 @@ const languages: Map<string, Language> = new Map();
 let requestScope: Request | undefined;
 
 export function setup(config: I18nConfig) {
-  const { languages: l, ...restConfig } = config;
+  const { languages: l, pattern, ...restConfig } = config;
   i18nConfig = { ...i18nConfig, ...restConfig };
   for (const lang in l) {
     log("I18n", `Language "${lang}" succesfully loaded!`);
