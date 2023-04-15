@@ -1,3 +1,6 @@
 {
-  "importMap": "./.dev/import_map.json"
+  "importMap": "./.dev/import_map.json",
+  "tasks": {
+    "check": "deno check src/twind/mod.ts src/i18n/mod.ts"
+  }
 }
