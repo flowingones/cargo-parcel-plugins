@@ -1,7 +1,7 @@
 name: ci
 run-name: Author change request by ${{ github.actor }}
 on: [pull_request]
-jobs: 
+jobs:
   type-check:
     runs-on: ubuntu-latest
     steps:
@@ -9,7 +9,7 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
-      - run: deno check src/twind/mod.ts
+      - run: deno task check src/twind/mod.ts
   test:
     runs-on: ubuntu-latest
     steps:
