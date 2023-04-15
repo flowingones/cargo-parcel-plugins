@@ -16,7 +16,7 @@ let i18nConfig = {
   defaultLanguage: "en",
   pattern: /^\/([a-z]{2})+\//i,
 };
-let languages: Map<string, Language>;
+const languages: Map<string, Language> = new Map();
 let requestScope: Request | undefined;
 
 export function setup(config: I18nConfig) {
