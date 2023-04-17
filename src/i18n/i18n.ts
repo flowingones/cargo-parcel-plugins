@@ -51,11 +51,11 @@ export function pathFrom(url: string): string {
 
 export function getActiveLang(): string {
   const url = requestScope?.url ?? window.location.href;
-  return extractLang(url)?.[1] ?? i18nConfig.defaultLanguage;
+  return extractLang(url) ?? i18nConfig.defaultLanguage;
 }
 
-export function extractLang(url: string): RegExpExecArray | null {
-  return i18nConfig.pattern.exec(pathFrom(url));
+export function extractLang(url: string): string | undefined {
+  return i18nConfig.pattern.exec(pathFrom(url))?.[1];
 }
 
 export function getLanguages(): string[] {
