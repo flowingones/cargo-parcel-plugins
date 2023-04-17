@@ -11,10 +11,11 @@ import { info } from "cargo/utils/mod.ts";
 export async function TwindPlugin(config?: any): Promise<Plugin> {
   try {
     if (!config) {
-      config = (await import(
-        new URL(join(toFileUrl(Deno.cwd()).href, `./config/twind.ts`)).href
-      ))
-        .default;
+      config = (
+        await import(
+          new URL(join(toFileUrl(Deno.cwd()).href, `./config/twind.ts`)).href
+        )
+      ).default;
     }
 
     install(config || {});
@@ -28,7 +29,7 @@ export async function TwindPlugin(config?: any): Promise<Plugin> {
     plugin(): PluginDefintions {
       return {
         entryPoints: {
-          "plugin_twind": new URL("./twind.ts", import.meta.url).href,
+          plugin_twind: new URL("./twind.ts", import.meta.url).href,
         },
         scripts: [
           `<script type="module">import { twind } from "/_parcel/${BUILD_ID}/plugin_twind.js"; twind()</script>`,
@@ -36,7 +37,10 @@ export async function TwindPlugin(config?: any): Promise<Plugin> {
         tasks: {
           afterRender: [
             (ctx: AfterRenderTaskContext) => {
-              return inline(ctx.pageHtml);
+              return {
+                ...ctx,
+                pageHtml: inline(ctx.pageHtml),
+              };
             },
           ],
         },

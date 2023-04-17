@@ -1,4 +1,4 @@
-import { info, log } from "cargo/utils/mod.ts";
+import { info } from "cargo/utils/mod.ts";
 
 export interface I18nConfig {
   defaultLanguage?: string;
@@ -14,25 +14,21 @@ export interface Language {
 
 let i18nConfig = {
   defaultLanguage: "en",
-  pattern: /^\/([a-z]{2})+\//i,
+  pattern: /^\/([a-z]{2})?(?:\/|$)/i,
 };
-const languages: Map<string, Language> = new Map();
+const _languages: Map<string, Language> = new Map();
 let requestScope: Request | undefined;
 
 export function setup(config: I18nConfig) {
-  const { languages: l, pattern, ...restConfig } = config;
+  const { languages: l, ...restConfig } = config;
   i18nConfig = { ...i18nConfig, ...restConfig };
   for (const lang in l) {
-    log("I18n", `Language "${lang}" succesfully loaded!`);
-    languages.set(lang, l[lang]);
+    _languages.set(lang, l[lang]);
   }
 }
 
 export function t(key: string): string {
-  const url = requestScope?.url ?? window.location.href;
-  const langCode = i18nConfig.pattern.exec(pathFrom(url))?.[1] ??
-    i18nConfig.defaultLanguage;
-  const language = languages.get(langCode);
+  const language = _languages.get(getActiveLang());
   if (language) {
     const keys = key.split(".");
     return unnest([...keys], language, "") ?? key;
@@ -53,6 +49,19 @@ export function pathFrom(url: string): string {
   return pathName;
 }
 
+export function getActiveLang(): string {
+  const url = requestScope?.url ?? window.location.href;
+  return extractLang(url)?.[1] ?? i18nConfig.defaultLanguage;
+}
+
+export function extractLang(url: string): RegExpExecArray | null {
+  return i18nConfig.pattern.exec(pathFrom(url));
+}
+
+export function getLanguages(): string[] {
+  return Array.from(_languages.keys());
+}
+
 export function unnest(
   keys: string[],
   language: Language,
@@ -63,7 +72,7 @@ export function unnest(
   if (typeof key === "undefined") {
     info(
       "I18n",
-      `Translation key is for undefined. This most likely happens if the translation values is not of type string`,
+      `Translation key is for undefined. This most likely happens if the translation values is not of type "string"`,
     );
     return undefined;
   }
@@ -74,7 +83,7 @@ export function unnest(
       if (keys.length) {
         info(
           "I18n",
-          `Key "${path}${key}" does not seems to be a final value. More nesting expected ${path}${key}(.${
+          `Key "${path}${key}" does not seems to be a final translation value. More nesting expected ${path}${key}(.${
             keys.join(
               ".",
             )
