@@ -1,4 +1,5 @@
 import { Plugin, PluginDefintions } from "parcel/cargo/plugin.ts";
+import { html } from "parcel/cargo/mod.ts";
 import { BUILD_ID } from "parcel/cargo/constants.ts";
 import {
   extractLang,
@@ -38,7 +39,8 @@ export function I18nPlugin(config: I18nConfig): Plugin {
         tasks: {
           beforeRender: [
             (ctx) => {
-              if (extractLang(new URL(ctx.request.url).href) === null) {
+              const lang = extractLang(new URL(ctx.request.url).href);
+              if (typeof lang === "undefined") {
                 throw new NotFoundException();
               }
 
@@ -48,6 +50,7 @@ export function I18nPlugin(config: I18nConfig): Plugin {
                 reset();
                 throw new NotFoundException();
               }
+              html({ lang });
               return ctx;
             },
           ],
