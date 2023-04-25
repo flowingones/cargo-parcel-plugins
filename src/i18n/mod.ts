@@ -1,2 +1,2 @@
 export { I18nPlugin } from "./plugin.ts";
-export { getLanguages, t } from "./i18n.ts";
+export { I18n, type I18nConfig, t } from "./i18n.ts";

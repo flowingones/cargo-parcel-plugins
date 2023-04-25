@@ -1,8 +1,8 @@
 import { info } from "cargo/utils/mod.ts";
+import { Route } from "parcel/cargo/mod.ts";
 
 export interface I18nConfig {
   defaultLanguage?: string;
-  pattern?: RegExp;
   languages: {
     [key: string]: Language;
   };
@@ -12,57 +12,34 @@ export interface Language {
   [key: string]: string | Language;
 }
 
-let i18nConfig = {
+let _config = {
   defaultLanguage: "en",
   pattern: /^\/([a-z]{2})?(?:\/|$)/i,
 };
 const _languages: Map<string, Language> = new Map();
-let requestScope: Request | undefined;
 
-export function setup(config: I18nConfig) {
+function setup(config: I18nConfig): void {
   const { languages: l, ...restConfig } = config;
-  i18nConfig = { ...i18nConfig, ...restConfig };
+  _config = { ..._config, ...restConfig };
   for (const lang in l) {
     _languages.set(lang, l[lang]);
   }
 }
 
-export function t(key: string): string {
-  const language = _languages.get(getActiveLang());
-  if (language) {
-    const keys = key.split(".");
-    return unnest([...keys], language, "") ?? key;
-  }
-  return key;
+function getActiveLang(): string {
+  return langFrom(Route.url()) ??
+    _config.defaultLanguage;
 }
 
-export function set(request: Request): void {
-  requestScope = request;
+function langFrom(url: URL): string | undefined {
+  return _config.pattern.exec(url.pathname)?.[1];
 }
 
-export function reset() {
-  requestScope = undefined;
-}
-
-export function pathFrom(url: string): string {
-  const pathName = new URL(url).pathname;
-  return pathName;
-}
-
-export function getActiveLang(): string {
-  const url = requestScope?.url ?? window.location.href;
-  return extractLang(url) ?? i18nConfig.defaultLanguage;
-}
-
-export function extractLang(url: string): string | undefined {
-  return i18nConfig.pattern.exec(pathFrom(url))?.[1];
-}
-
-export function getLanguages(): string[] {
+function getLanguages(): string[] {
   return Array.from(_languages.keys());
 }
 
-export function unnest(
+function unnest(
   keys: string[],
   language: Language,
   path: string,
@@ -97,3 +74,31 @@ export function unnest(
   info("I18n", `Translation value to key "${path}${key}" not found`);
   return undefined;
 }
+
+function replaceParams(label: string, params?: Record<string, string>): string {
+  if (!params) {
+    return label;
+  }
+  return Object.entries(params).reduce((label, [key, value]) => {
+    return label.replace(new RegExp(`{{${key}}}`, "g"), value);
+  }, label);
+}
+
+export function t(key: string, params?: Record<string, string>): string {
+  const language = _languages.get(getActiveLang());
+  if (language) {
+    const keys = key.split(".");
+    if (params) {
+      return replaceParams(unnest([...keys], language, "") ?? key, params);
+    }
+    return unnest([...keys], language, "") ?? key;
+  }
+  return key;
+}
+
+export const I18n = {
+  setup,
+  getActiveLang,
+  getLanguages,
+  langFrom,
+};
