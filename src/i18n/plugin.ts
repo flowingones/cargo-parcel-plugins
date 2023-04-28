@@ -22,7 +22,7 @@ export function I18nPlugin(config: I18nConfig): Plugin {
           plugin_i18n: new URL("./i18n.ts", import.meta.url).href,
         },
         scripts: [
-          `<script type="module">import { setup } from "/_parcel/${BUILD_ID}/plugin_i18n.js"; setup(${
+          `<script type="module">import { I18n } from "/_parcel/${BUILD_ID}/plugin_i18n.js"; I18n.setup(${
             JSON.stringify(
               config,
             )
