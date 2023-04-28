@@ -14,9 +14,9 @@ I18n.setup({
 });
 
 Deno.test("I18n", async (test) => {
-  await test.step("should return translated value in en", () => {
-    setRequest(new Request("https://cargo.wtf/en"));
-    assertEquals(t("section.title"), "Hello Section");
+  await test.step("should return key", () => {
+    setRequest(new Request("https://cargo.wtf/de"));
+    assertEquals(t("section.title"), "section.title");
     setRequest(undefined);
   });
 
