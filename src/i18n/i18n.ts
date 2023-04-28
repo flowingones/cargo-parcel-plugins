@@ -1,5 +1,4 @@
-import { info } from "cargo/utils/mod.ts";
-import { Route } from "parcel/cargo/mod.ts";
+import { Route } from "parcel/cargo/route.ts";
 
 export interface I18nConfig {
   defaultLanguage?: string;
@@ -47,7 +46,7 @@ function unnest(
   const key = keys.shift();
 
   if (typeof key === "undefined") {
-    info(
+    console.info(
       "I18n",
       `Translation key is for undefined. This most likely happens if the translation values is not of type "string"`,
     );
@@ -58,7 +57,7 @@ function unnest(
     const translation = language[key];
     if (typeof translation === "string") {
       if (keys.length) {
-        info(
+        console.info(
           "I18n",
           `Key "${path}${key}" does not seems to be a final translation value. More nesting expected ${path}${key}(.${
             keys.join(
@@ -71,7 +70,7 @@ function unnest(
     }
     return unnest(keys, translation, `${path}${key}.`);
   }
-  info("I18n", `Translation value to key "${path}${key}" not found`);
+  console.info("I18n", `Translation value to key "${path}${key}" not found`);
   return undefined;
 }
 
