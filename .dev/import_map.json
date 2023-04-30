@@ -4,6 +4,8 @@
     "cargo/": "https://deno.land/x/cargo@0.1.50/",
     "inspect/": "https://deno.land/x/cargo_inspect@0.1.50/",
     "parcel/": "https://deno.land/x/cargo_parcel@0.1.83/",
+    "assemble/": "https://deno.land/x/cargo_assemble@0.0.3/",
+    "label/": "https://deno.land/x/cargo_label@0.0.9/",
     "@twind/core": "https://esm.sh/@twind/core@1.1.3"
   }
 }

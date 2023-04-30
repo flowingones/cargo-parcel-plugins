@@ -50,3 +50,11 @@ export default {
   // ...
 };
 ```
+
+## Config Plugin
+
+TODO
+
+## I18n Plugin
+
+TODO
