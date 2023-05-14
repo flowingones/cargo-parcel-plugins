@@ -1,5 +1,5 @@
 import { Plugin, PluginDefintions } from "parcel/cargo/plugin.ts";
-import { html } from "parcel/cargo/mod.ts";
+import { html } from "parcel/cargo/page/html.ts";
 import { BUILD_ID } from "parcel/cargo/constants.ts";
 import { Get, NotFoundException } from "cargo/http/mod.ts";
 import { I18n, type I18nConfig } from "./mod.ts";
