@@ -1,11 +1,11 @@
 import { inline, install } from "@twind/core";
 import { join, toFileUrl } from "std/path/mod.ts";
-import { BUILD_ID } from "parcel/cargo/constants.ts";
 import {
   AfterRenderTaskContext,
   Plugin,
+  PluginContext,
   PluginDefintions,
-} from "parcel/cargo/plugin.ts";
+} from "parcel/cargo/plugins/plugins.ts";
 import { info } from "cargo/utils/mod.ts";
 
 export async function TwindPlugin(config?: any): Promise<Plugin> {
@@ -26,13 +26,13 @@ export async function TwindPlugin(config?: any): Promise<Plugin> {
 
   return {
     name: "Twind Plugin",
-    plugin(): PluginDefintions {
+    plugin(ctx: PluginContext): PluginDefintions {
       return {
         entryPoints: {
           plugin_twind: new URL("./twind.ts", import.meta.url).href,
         },
         scripts: [
-          `<script type="module">import { twind } from "/_parcel/${BUILD_ID}/plugin_twind.js"; twind()</script>`,
+          `<script type="module">import { twind } from "/${ctx.plugin.assetsPath}/plugin_twind.js"; twind()</script>`,
         ],
         tasks: {
           afterRender: [
