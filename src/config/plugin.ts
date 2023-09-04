@@ -1,6 +1,9 @@
 import { Label, Labels, LabelsOptions } from "label/label.ts";
 import { assemble, get } from "assemble/assemble.ts";
-import { PluginDefintions } from "parcel/cargo/plugin.ts";
+import {
+  PluginContext,
+  PluginDefintions,
+} from "parcel/cargo/plugins/plugins.ts";
 import { BUILD_ID } from "parcel/cargo/constants.ts";
 
 export function ConfigPlugin<T extends Labels>(options: LabelsOptions<T>) {
@@ -16,13 +19,13 @@ export function ConfigPlugin<T extends Labels>(options: LabelsOptions<T>) {
 
   return {
     name: "ConfigPlugin",
-    plugin(): PluginDefintions {
+    plugin(ctx: PluginContext): PluginDefintions {
       return {
         entryPoints: {
           plugin_config: new URL("./main.ts", import.meta.url).href,
         },
         scripts: [
-          `<script type="module">import { config } from "/_parcel/${BUILD_ID}/plugin_config.js";config(${
+          `<script type="module">import { config } from "/${ctx.plugin.assetsPath}/plugin_config.js";config(${
             JSON.stringify(filterAllowedInBrowser(config.getAll()))
           })</script>`,
         ],

@@ -1,5 +1,5 @@
 import { get } from "assemble/mod.ts";
-import { assertEquals } from "std/testing/asserts.ts";
+import { assertEquals } from "std/assert/mod.ts";
 import { Label } from "label/label.ts";
 import { ConfigPlugin } from "./plugin.ts";
 import { BUILD_ID } from "parcel/cargo/constants.ts";
@@ -13,7 +13,7 @@ const Plugin = ConfigPlugin({
   labels,
 });
 
-const plugin = Plugin.plugin();
+const plugin = Plugin.plugin({ assetsPath: "test" });
 
 Deno.test(ConfigPlugin.name, async (t) => {
   await t.step('should have name "ConfigPlugin"', () => {

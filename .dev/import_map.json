@@ -1,9 +1,9 @@
 {
   "imports": {
-    "std/": "https://deno.land/std@0.180.0/",
-    "cargo/": "https://deno.land/x/cargo@0.1.51/",
-    "inspect/": "https://deno.land/x/cargo_inspect@0.1.51/",
-    "parcel/": "https://deno.land/x/cargo_parcel@0.1.84/",
+    "std/": "https://deno.land/std@0.201.0/",
+    "cargo/": "https://deno.land/x/cargo@0.1.56/",
+    "inspect/": "https://deno.land/x/cargo_inspect@0.1.56/",
+    "parcel/": "https://deno.land/x/cargo_parcel@0.2.1/",
     "assemble/": "https://deno.land/x/cargo_assemble@0.0.3/",
     "label/": "https://deno.land/x/cargo_label@0.0.9/",
     "@twind/core": "https://esm.sh/@twind/core@1.1.3"
