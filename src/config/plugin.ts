@@ -25,7 +25,7 @@ export function ConfigPlugin<T extends Labels>(options: LabelsOptions<T>) {
           plugin_config: new URL("./main.ts", import.meta.url).href,
         },
         scripts: [
-          `<script type="module">import { config } from "/${ctx.plugin.assetsPath}/plugin_config.js";config(${
+          `<script type="module">import { config } from "/${ctx.assetsPath}/plugin_config.js";config(${
             JSON.stringify(filterAllowedInBrowser(config.getAll()))
           })</script>`,
         ],

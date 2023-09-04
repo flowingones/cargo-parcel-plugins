@@ -32,7 +32,7 @@ export async function TwindPlugin(config?: any): Promise<Plugin> {
           plugin_twind: new URL("./twind.ts", import.meta.url).href,
         },
         scripts: [
-          `<script type="module">import { twind } from "/${ctx.plugin.assetsPath}/plugin_twind.js"; twind()</script>`,
+          `<script type="module">import { twind } from "/${ctx.assetsPath}/plugin_twind.js"; twind()</script>`,
         ],
         tasks: {
           afterRender: [

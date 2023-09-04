@@ -25,7 +25,7 @@ Deno.test(ConfigPlugin.name, async (t) => {
       "plugin_config": new URL("main.ts", import.meta.url).href,
     });
     assertEquals(plugin.scripts, [
-      `<script type="module">import { config } from "/_parcel/${BUILD_ID}/plugin_config.js";config({"name!":"Luke"})</script>`,
+      `<script type="module">import { config } from "/test/plugin_config.js";config({"name!":"Luke"})</script>`,
     ]);
   });
 
