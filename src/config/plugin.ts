@@ -4,7 +4,6 @@ import {
   PluginContext,
   PluginDefintions,
 } from "parcel/cargo/plugins/plugins.ts";
-import { BUILD_ID } from "parcel/cargo/constants.ts";
 
 export function ConfigPlugin<T extends Labels>(options: LabelsOptions<T>) {
   // Setup Label for the server

@@ -1,8 +1,12 @@
 import { Plugin, PluginDefintions } from "parcel/cargo/plugins/plugins.ts";
 import { html } from "parcel/cargo/pages/html.ts";
 import { BUILD_ID } from "parcel/cargo/constants.ts";
-import { Get, NotFoundException } from "cargo/http/mod.ts";
+import { Get } from "cargo/http/mod.ts";
 import { I18n, type I18nConfig } from "./mod.ts";
+import {
+  LanguageNotSupportedException,
+  NoLanguageSpecifiedException,
+} from "./exceptions.ts";
 
 export function I18nPlugin(config: I18nConfig): Plugin {
   I18n.setup(config);
@@ -33,10 +37,10 @@ export function I18nPlugin(config: I18nConfig): Plugin {
             (ctx) => {
               const lang = I18n.langFrom(new URL(ctx.request.url));
               if (typeof lang === "undefined") {
-                throw new NotFoundException();
+                throw new NoLanguageSpecifiedException();
               }
-              if (!I18n.getLanguages().includes(I18n.getActiveLang())) {
-                throw new NotFoundException();
+              if (!I18n.getLanguages().includes(lang)) {
+                throw new LanguageNotSupportedException();
               }
               html({ lang });
               return ctx;
